@@ -1,0 +1,71 @@
+----------Get Next Line ------------
+
+char *get_next_line(int fd);
+
+-Wall, -Wextra et -Werror
+segmentation fault, bus error, double free, etc
+Makefile : $(NAME), all, clean, fclean et re.
+
+
+Des appels successifs à votre fonction get_next_line() doivent vous permettre de
+lire l’intégralité du fichier texte référencé par le descripteur de fichier, une ligne
+à la fois.
+
+Votre fonction doit retourner la ligne qui vient d’être lue.
+S’il n’y a plus rien à lire, ou en cas d’erreur, elle doit retourner NULL
+
+Assurez-vous que votre fonction se comporte correctement qu’elle lise un fichier
+ou qu’elle lise sur l’entrée standard. ??????????
+
+
+Important : Vous devez toujours retourner la ligne qui a été lue suivie du \n la
+terminant, sauf dans le cas où vous avez atteint la fin du fichier et que ce dernier
+ne se termine pas par un \n. ---> toujours return \n
+
+cc -Wall -Wextra -Werror -D BUFFER_SIZE=42 <files>.c
+
+Votre programme doit compiler avec l’option : -D BUFFER_SIZE=n
+
+comportement indeterminé si, entre
+deux appels, le fichier pointé par le descripteur de fichier a été modifié, alors que
+le premier fichier n’a pas été lu en entier.
+
+Nous considérons aussi que get_next_line() a un comportement indeterminé en
+cas de lecture d’un fichier binaire. Cependant, si vous le souhaitez, vous pouvez
+rendre ce comportement cohérent.
+
+Votre fonction marche-t-elle encore si la valeur de BUFFER_SIZE est
+de 9999? Ou de 1 ? Ou encore de 10 000 000 ? Savez-vous pourquoi ?
+
+Votre programme doit lire le moins possible à chaque appel à
+get_next_line(). Si vous rencontrez une nouvelle ligne, vous devez
+retourner la ligne précédente venant d’être lue.
+Ne lisez pas l’intégralité du fichier pour ensuite traiter chaque
+ligne.
+
+We must be able to compile this project with and without the -D
+BUFFER_SIZE flag in addition to the usual flags. You can choose the
+default value of your choice.
+
+
+Ce qui n’est pas autorisé
+• La libft n’est pas autorisée pour ce projet.
+• La fonction lseek() est interdite.
+• Les variables globales sont interdites
+
+
+Donc avec ces info comment on va faire ?
+
+----------READ--------------
+#include <unistd.h>
+ssize_t read(int fd, void *buf, size_t count);
+Si count est supérieur à SSIZE_MAX, le résultat est indéfini.  
+read() renvoie -1 s'il échoue,et la position de la tête de lecture est indéfinie.
+read() renvoie le nombre d'octets lus (0 en fin de fichier),
+et avance la tête de lecture de ce nombre.
+Le fait que le nombre renvoyé soit plus petit que le nombre demandé n'est pas une erreur. Ceci se produit à la fin du fichier, ou si on lit depuis un tube ou un terminal, ou encore si read() a été interrompu par un signal.  
+
+fin de fichier :
+if (return of read() < buffer)
+	FIN
+iImaginons que vous ayez une fonction qui crée un nouveau nœud et l'ajoute au début de la liste. Si vous utilisez simplement t_list *begin_list, la fonction peut modifier la liste localement, mais la modification ne sera pas reflétée à l'extérieur de la fonction. En revanche, si vous utilisez t_list **begin_list, la fonction peut modifier l'adresse mémoire vers laquelle pointe le pointeur, ce qui aura un impact à l'extérieur de la fonction.
