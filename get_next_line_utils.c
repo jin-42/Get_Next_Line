@@ -5,76 +5,59 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: fsulvac <fsulvac@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/11/29 18:26:58 by fsulvac           #+#    #+#             */
-/*   Updated: 2023/11/30 16:26:53 by fsulvac          ###   ########.fr       */
+/*   Created: 2023/12/04 15:21:21 by fsulvac           #+#    #+#             */
+/*   Updated: 2023/12/04 17:57:47 by fsulvac          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-
-#include <stdlib.h>  // Ajout de l'en-tête pour malloc
 #include "get_next_line.h"
-
-t_list *ft_create_elem(void *data)
+size_t	ft_strlen(char *s)
 {
-	t_list *new;  // Correction du type de new
+	size_t	i;
 
-	if (!(new = malloc(sizeof(t_list))))
-		return (NULL);
-	new->data = data;
-	new->next = NULL;
-	return (new);
+	i = 0;
+	while (s[i])
+		i++;
+	return (i);
 }
 
-int search_line_in_buffer(char *buffer)
+int	ft_strchr(int c, char *buffer)
 {
-	size_t buff_size;
-
-	buff_size = 0;
-	while (buffer[buff_size] != '\0')
-	{
-		if (buffer[buff_size] == '\n')
-			return (1);
-		buff_size++;
-	}
-	if (buff_size < BUFFER_SIZE)
-		return (1);
+	while (*buffer != (char)c && *buffer != '\0')
+		buffer++;
+	if (*buffer == (char)c)
+		return 1;
 	return (0);
 }
 
-int ft_list_size(t_list *begin_list)
+char	*ft_strjoin(char *stash, char *buff)
 {
-	int size;
-	t_list *current;
+	char	*s;
+	size_t	i;
+	size_t 	j;
 
-	size = 0;
-	current = begin_list;
-	while (current)
-	{
-		size++;
-		current = current->next;  // Correction de l'accès à la prochaine structure de la liste
-	}
-	return size;
-}
-
-char *ft_strdup(const char *src)
-{
-	size_t i;
-	char *dup;
-
+	if (!buff)
+		return (NULL);
+	else if (!stash)
+		s = (char *)malloc(sizeof(char) * (ft_strlen(buff) + 1));
+	else 
+		s = (char *)malloc(sizeof(char) * (ft_strlen(buff) + ft_strlen(stash) + 1));
+	if (!s)
+		return (NULL);
 	i = 0;
-	dup = NULL;
-	while (src[i])
-		i++;
-	dup = malloc(sizeof(char) * (i + 1));
-	if (dup == NULL)
-		return (NULL);  // Correction de la valeur de retour en cas d'échec de l'allocation
-	i = 0;
-	while (src[i])
+	if (stash != NULL)
 	{
-		dup[i] = src[i];
-		i++;
+		while (stash[i] != '\0')
+		{
+				s[i] = stash[i];
+				i++;
+		}
 	}
-	dup[i] = '\0';  // Correction de la null-termination
-	return (dup);
+	j = 0;
+	while (buff[j])
+	{
+		s[i + j] = buff[j];
+		j++;
+	}
+	s[i + j] = '\0';
+	return (s);
 }
-//search in line return 0 false and true 1
