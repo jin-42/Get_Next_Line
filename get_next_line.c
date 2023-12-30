@@ -20,7 +20,7 @@
 char	*read_to_stash(char *stash, int fd)
 {
 	char	*buffer;
-	size_t	readed;
+	int	readed;
 	if (BUFFER_SIZE <= 0 || fd < 0 )
 		return (NULL);
 	buffer = malloc(sizeof(char) * (BUFFER_SIZE + 1));
