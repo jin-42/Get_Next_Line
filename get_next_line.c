@@ -49,7 +49,7 @@ char *stash_to_line(char *stash)
 	i = 0;
 	while (stash[i] != '\n' && stash[i])
 		i++;
-	line = (char *)malloc(sizeof(char *) * (i + 2I)); // if they are \n
+	line = (char *)malloc(sizeof(char *) * (i + 2)); // if they are \n
 	if (!line)
 		return (NULL);
 	i = 0;
